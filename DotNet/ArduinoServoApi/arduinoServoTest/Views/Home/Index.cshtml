@@ -7,7 +7,7 @@
 
 
 
-        app.controller("myCtrl", function ($scope) {
+        app.controller("myCtrl",function ($scope) {
             $scope.pos = 0;
             $scope.message = "";
             angular.element(window).on('keydown', function (e) {
@@ -39,12 +39,20 @@
                 
             }
             $scope.update = function () {
-                $.get('/servoU.axd?i=' + $scope.pos, function (d) {});
+                $.get('/servoU.axd?i=' + $scope.pos, function (d) { });     
             }
-            $scope.$watch('pos', function (a,b) {
+            $scope.$watch('pos', function (a, b) {
                 $scope.update();
             });
         });
+        var temperature = {
+            current: function ($scope) {
+                $.get('/servou.axd?i=' + $scope.faherheit);
+            }
+        
+        }; 
+            
+        
 
     </script>
 }
@@ -66,6 +74,7 @@
                 <p>
                     Can be a number between 0 and 180. The left and right keys on an keyboard will increment.
                 </p>
+                <h3>Temperature: {{temperature.current}}</h3>
             </div>
         </div>
     </div>
