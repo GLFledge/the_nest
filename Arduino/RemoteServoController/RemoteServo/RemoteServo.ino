@@ -1,5 +1,5 @@
 #include <SPI.h>
-#include <EthernetV2_0.h>
+#include <Ethernet.h>
 #include <Servo.h>
 
 const short W5200_CS = 10;
