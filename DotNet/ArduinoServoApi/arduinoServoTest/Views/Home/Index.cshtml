@@ -44,13 +44,7 @@
             $scope.$watch('pos', function (a, b) {
                 $scope.update();
             });
-        });
-        var temperature = {
-            current: function ($scope) {
-                $.get('/servou.axd?i=' + $scope.faherheit);
-            }
-        
-        }; 
+        }); 
             
         
 
@@ -74,7 +68,7 @@
                 <p>
                     Can be a number between 0 and 180. The left and right keys on an keyboard will increment.
                 </p>
-                <h3>Temperature: {{temperature.current}}</h3>
+                
             </div>
         </div>
     </div>

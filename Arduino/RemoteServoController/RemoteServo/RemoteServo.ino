@@ -109,8 +109,10 @@ void retrieveData(){
 void httpRequest() {
   if (client.connect(server, 80)) {
     Serial.print(".");
-    client.println("GET localhost:4744/servo.axd HTTP/1.0");
-    client.println("Host: http://localhost:4744");
+
+    client.println("GET /servo.axd HTTP/1.0");
+    client.println("Host: localhost:4744");
+
     //client.println("User-Agent: arduino-ethernet");
     client.println("Connection: close");
     client.println();
