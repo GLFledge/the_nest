@@ -5,10 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace _17steps {
+namespace glfledge
+{
     public class RouteConfig {
         public static void RegisterRoutes(RouteCollection routes) {
-           // routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
                 name: "Default",
@@ -16,11 +17,11 @@ namespace _17steps {
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-            routes.MapRoute(
-                name: "servoU",
-                url: "{resource}.axd/{*pathInfo}",
-                defaults: new { resource = "ServoU", action = "Index", id = UrlParameter.Optional }
-                );
+            //routes.MapRoute(
+            //    name: "servoU",
+            //    url: "{resource}.axd/{*pathInfo}",
+            //    defaults: new { resource = "ServoU", action = "Index", id = UrlParameter.Optional }
+            //    );
         }
     }
 }

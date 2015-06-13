@@ -8,7 +8,7 @@ const short SERVO_OUT = 8;
 const short LED_OUT = 9;
 const unsigned long postingInterval = .5 * 1000;  // delay between updates, in milliseconds
 const unsigned long blinkInterval = 1 * 1000;
-const char server[] = "17steps.com";
+const char server[] = "localhost:4744";
 byte mac[] = {
   0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 
@@ -109,8 +109,8 @@ void retrieveData(){
 void httpRequest() {
   if (client.connect(server, 80)) {
     Serial.print(".");
-    client.println("GET /servo.axd HTTP/1.0");
-    client.println("Host: www.17steps.com");
+    client.println("GET localhost:4744/servo.axd HTTP/1.0");
+    client.println("Host: http://localhost:4744");
     //client.println("User-Agent: arduino-ethernet");
     client.println("Connection: close");
     client.println();
