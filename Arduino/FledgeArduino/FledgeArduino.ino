@@ -28,7 +28,7 @@ void setup() {
 
   Console.begin();
 
-  while (!Console); // wait for a serial connection
+  //while (!Console); // wait for a serial connection
 }
 
 void loop() {
@@ -63,7 +63,7 @@ void loop() {
   temp = readTemp(TEMP_IN);
   Console.println(temp);
 
-  if (postClient.connect("http://greensweaterknitting.com", 80)) {
+  if (postClient.connect("greensweaterknitting.com", 80)) {
     Console.println("connected to POST server");
     postStr = "{\"temp\": " + String(temp) + ", \"arbitrary-key\": " + "123454321098767890}";
     postClient.println("POST /temperature HTTP/1.1");
