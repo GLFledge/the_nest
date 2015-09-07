@@ -1,15 +1,17 @@
-
 #include <Bridge.h>
+#include <YunClient.h>
 #include <HttpClient.h>
 #include <Servo.h>
 #include <Temp.h>
-
 
 const short TEMP_IN = 5;
 const short SERVO_OUT = 9;
 
 String result;
 Servo servoCtrl;
+YunClient postClient;
+double temp;
+String postStr;
 
 int pos = 0;
 
@@ -20,9 +22,9 @@ void setup() {
   // it can be helpful to use the on-board LED
   // as an indicator for when it has initialized
   pinMode(13, OUTPUT);
-  digitalWrite(13, LOW);
-  Bridge.begin();
   digitalWrite(13, HIGH);
+  Bridge.begin();
+  digitalWrite(13, LOW);
 
   Console.begin();
 
@@ -33,7 +35,7 @@ void loop() {
 
   // BEGIN: Servo
   // Initialize the client library
-  HttpClient getClient, postClient;
+  HttpClient getClient;
 
   // Make a HTTP request:
   getClient.get("http://17steps.com/servo.axd");
@@ -58,7 +60,24 @@ void loop() {
   // END: Servo
 
   // BEGIN: Temp
-  Console.println(readTemp(TEMP_IN));
+  temp = readTemp(TEMP_IN);
+  Console.println(temp);
+
+  if (postClient.connect("http://greensweaterknitting.com", 80)) {
+    Console.println("connected to POST server");
+    postStr = "{\"temp\": " + String(temp) + ", \"arbitrary-key\": " + "123454321098767890}";
+    postClient.println("POST /temperature HTTP/1.1");
+    postClient.println("Host: greensweaterknitting.com");
+    postClient.println("User-Agent: Arduino/1.0");
+    postClient.println("Connection: close");
+    postClient.println("Content-Type: application/json");
+    postClient.print("Content-Length: ");
+    postClient.println(postStr.length());
+    postClient.println();
+    postClient.println(postStr);
+  } else {
+    Console.println("connection to POST server failed");
+  }
   // END: Temp
 
   Console.flush();
