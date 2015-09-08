@@ -13,3 +13,25 @@ float readTemp(int analogPin) {
   temperature = temperature*1.8 + 32; // Fahrenheit
   return temperature;
 }
+
+void postTemp(const char* addr, int port, int temp) {
+
+	YunClient postClient;
+	String postStr;
+
+  if (postClient.connect(addr, port)) {
+    Console.println("connected to POST server");
+    postStr = "{\"temp\": " + String(temp) + ", \"arbitrary-key\": " + "123454321098767890}";
+    postClient.println("POST /temperature HTTP/1.1");
+    postClient.println("Host: " + String(addr));
+    postClient.println("User-Agent: Arduino/1.0");
+    postClient.println("Connection: close");
+    postClient.println("Content-Type: application/json");
+    postClient.print("Content-Length: ");
+    postClient.println(postStr.length());
+    postClient.println();
+    postClient.println(postStr);
+  } else {
+    Console.println("connection to POST server failed");
+  }
+}

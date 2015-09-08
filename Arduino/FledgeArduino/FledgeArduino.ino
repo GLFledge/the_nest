@@ -1,5 +1,4 @@
 #include <Bridge.h>
-#include <YunClient.h>
 #include <HttpClient.h>
 #include <Servo.h>
 #include <Temp.h>
@@ -9,10 +8,7 @@ const short SERVO_OUT = 9;
 
 String result;
 Servo servoCtrl;
-YunClient postClient;
 double temp;
-String postStr;
-
 int pos = 0;
 
 void setup() {
@@ -62,22 +58,8 @@ void loop() {
   // BEGIN: Temp
   temp = readTemp(TEMP_IN);
   Console.println(temp);
-
-  if (postClient.connect("greensweaterknitting.com", 80)) {
-    Console.println("connected to POST server");
-    postStr = "{\"temp\": " + String(temp) + ", \"arbitrary-key\": " + "123454321098767890}";
-    postClient.println("POST /temperature HTTP/1.1");
-    postClient.println("Host: greensweaterknitting.com");
-    postClient.println("User-Agent: Arduino/1.0");
-    postClient.println("Connection: close");
-    postClient.println("Content-Type: application/json");
-    postClient.print("Content-Length: ");
-    postClient.println(postStr.length());
-    postClient.println();
-    postClient.println(postStr);
-  } else {
-    Console.println("connection to POST server failed");
-  }
+  postTemp("greensweaterknitting.com", 80, temp);
+  postTemp("10.1.10.30", 3000, temp);
   // END: Temp
 
   Console.flush();
