@@ -1,3 +1,4 @@
+#include <avr/wdt.h>
 #include <Bridge.h>
 #include <HttpClient.h>
 #include <Servo.h>
@@ -21,14 +22,16 @@ void setup() {
   digitalWrite(13, HIGH);
   Bridge.begin();
   digitalWrite(13, LOW);
+  // Initiate watchdog timer for when arduino crashes
+  wdt_enable(WDTO_8S);
 
   Console.begin();
-
-  //while (!Console); // wait for a serial connection
 }
 
 void loop() {
 
+  wdt_reset();
+  
   // BEGIN: Servo
   // Initialize the client library
   HttpClient getClient;
@@ -59,9 +62,11 @@ void loop() {
   temp = readTemp(TEMP_IN);
   Console.println(temp);
   postTemp("greensweaterknitting.com", 80, temp);
+  wdt_reset();
   postTemp("10.1.10.30", 3000, temp);
   // END: Temp
 
+  wdt_reset();
   Console.flush();
   delay(5000);
 }
