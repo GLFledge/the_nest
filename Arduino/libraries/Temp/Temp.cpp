@@ -32,6 +32,7 @@ void postTemp(const char* addr, int port, int temp) {
     postClient.println();
     postClient.println(postStr);
     postClient.flush();
+    postClient.stop();
   } else {
     Console.println("connection to POST server failed");
   }
